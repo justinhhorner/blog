@@ -11,21 +11,24 @@ This will work well for using Neovim or any other editor on macOS and Linux. How
 
 Here's the directory structure I'm starting with.
 
-├── 3drenderer  
-│   ├── src  
-│   │   ├── main.h  
-│   │   ├── main.c  
-│   │   ├── lib  
-│   |   │   ├── sdl 
-│   |   │   |   ├── include 
-│   |   │   |   ├── lib 
-│   |   │   |   |   ├── x86 
-│   |   │   |   |   ├── x64 
-│   │   ├── ...  
-├── msvs  
-├── Makefile  
-├── README.md  
+```
+3drenderer
+├── src
+│   ├── main.h
+│   ├── main.c
+│   ├── ... 
+├── msvs
+│   ├── lib
+│   │   ├── sdl
+│   │   │   ├── include
+│   │   │   ├── lib
+│   │   │   │   ├── x86
+│   │   │   │   ├── x64
+│   │   └── ...
+├── Makefile
+├── README.md
 └── .gitignore
+```
 
 ## macOS and Linux
 As you'd expect, setting up the project on macOS and Linux is quite simple. I'm using `apt` and `brew` to install SDL2 on Linux and macOS respectively.

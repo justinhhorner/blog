@@ -14,7 +14,7 @@ Although there are many books on the topic, I'm going with Pikuma's [3D Graphics
 
 Every week, I'll post at least 1 article talking about what I've learned and the progress I've made.
 
-One final note: because I frequently work across platforms, I plan to include everything needed to develop and test the renderer across platforms (macOS, Linux, and Windows). So, you can expect Visual Studio solution and project files to be available, as well as being able to open the files in any editor on macOS and Linux.
+One final note: because I frequently work across platforms, I plan to include everything needed to develop and test the renderer across platforms (macOS, Linux, and Windows). So, you can expect Visual Studio solution and project files to be available. 
 
 Until next time.
 

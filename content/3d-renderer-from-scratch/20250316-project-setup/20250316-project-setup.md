@@ -1,20 +1,131 @@
-# Learning 3D Graphics From Scratch
+# 3D Renderer - Project Setup
 
-I'm starting a new blog series based on my fascination with 3D graphics rendering. 
+Although this is probably not an interesting topic to start with, I want to write about the setup of the project for our 3D renderer from scratch.
 
-The very first game I built used DirectX, and throughout my career, I've only used graphics APIs (DirectX and OpenGL).
+For those of you who missed the [series introduction](#), the renderer will be written in glorious C and use SDL for cross-platform concerns like creating a window and input handling. I don't want to waste time building an OS abstraction for handling these tasks with native APIs since that's not my focus for this project.
 
-However, it's time to open the black box and find out what these APIs are doing. I want to have a deep understanding of all the math, data structures, and algorithms involved in creating my own 3D renderer.
+## Directory Structure
+We're keeping the directory structure as simple as possible to start out. All we need is a root and `src` folder. I don't know what I'll end up naming this project, so for now I'm sticking with `3drenderer`.
 
-Although there are many books on the topic, I'm going with Pikuma's [3D Graphics Programming from Scratch](https://pikuma.com/courses/learn-3d-computer-graphics-programming) course. If you've never heard of or gone through a Pikuma course before, I highly encourage you to take a look at their [courses](https://pikuma.com/courses).
+This will work well for using Neovim or any other editor on macOS and Linux. However, I also want to include Visual Studio Solution and Project files so I can develop across platforms. I added a new directory called `msvs` for this to keep it isolated. Since SDL2 development libraries need to be downloaded, I added a copy of them to src/lib/sdl.
 
-![Pikuma Graphics Course](pikuma-3d-graphics.jpg)
+Here's the directory structure I'm starting with.
 
-Every week, I'll post at least 1 article talking about what I've learned and the progress I've made.
+├── 3drenderer  
+│   ├── src  
+│   │   ├── main.h  
+│   │   ├── main.c  
+│   │   ├── lib  
+│   |   │   ├── sdl 
+│   |   │   |   ├── include 
+│   |   │   |   ├── lib 
+│   |   │   |   |   ├── x86 
+│   |   │   |   |   ├── x64 
+│   │   ├── ...  
+├── msvs  
+├── Makefile  
+├── README.md  
+└── .gitignore
 
-One final note: because I frequently work across platforms, I plan to include everything needed to develop and test the renderer across platforms (macOS, Linux, and Windows). So, you can expect Visual Studio solution and project files to be available, as well as being able to open the files in any editor on macOS and Linux.
+## macOS and Linux
+As you'd expect, setting up the project on macOS and Linux is quite simple. I'm using `apt` and `brew` to install SDL2 on Linux and macOS respectively.
 
-Until next time.
+### Linux
+If you're missing build essentials, go ahead and install those as well.
 
-Take care.  
-Stay awesome.
+sudo apt install build-essential
+sudo apt install libsdl2-dev
+
+### macOS
+brew install sdl2
+
+Brew will download SDL2 at /opt/brew/... which may not be search location gcc uses. You will know this is the case if later when you try to compile `main.c` you see a compiler or linker error related to missing SDL.
+
+ There are a few different ways to resolve this issue, and I'll go over both so you can choose your preference.
+
+First, the option I went with, is to examine the search paths for include and library files gcc uses with the following commands.
+ 
+Include paths
+ `COMMAND`
+
+Library paths
+ `COMMAND`
+
+I created symlinks for FILE1 and FILE2 into /usr/local/include and /usr/local/lib which are default directories for gcc.
+
+`sudo ln -s /target /source`
+`sudo ln -s /target /source`
+
+Another approach is to provide the include and libary paths to gcc via flags using -I and -L. Although this adds quite a bit to gcc, we'll use a Makefile so we don't need to type this out every time.
+
+```bash
+gcc src/main.c -Wall -std=c99 -Ipath/to/includes -L/path/to/lib
+```
+
+## Windows
+Unfortunately, we have extra steps to get set up on Windows. There are several ways to go about this. You could download Visual Studio Build Tools and use any code edtor along with [cl](https://learn.microsoft.com/en-us/cpp/build/reference/compiler-command-line-syntax?view=msvc-170) to compile. You can find equivalent flags to get a similar behavior to what we use on macOS and Linux with gcc.
+
+However, most people prefer downloading Visual Studio and adding the `Desktop Development with C++` workload to get a full IDE and C/C++ compiler up and running quickly. I'll cover this approach.
+
+You can install Visual Studio Community with nuget.
+
+```bash
+winget install -e Microsoft.VisualStudio.2022.Community
+```
+
+When that's done, open the Visual Studio Installer, choose `Modify` and check `Desktop Development with C++` and install.
+
+I downloaded the SDL2 development files and added them to the `msvs/lib` directory. We need to modify the project properties to add the SDL include and library files.
+
+Add the SDL include files to `Include Directories` in VC++ Directories.
+![VS Include Directories](vs-include-directories.png)
+
+Add the SDL library directory to `Library Directories` in VC++ Directories.
+![VS Library Directories](vs-lib-directories.png)
+
+Add the SDL library directory to `Additional Library Directories` in Linker/General. 
+![VS Library Directories](vs-add-lib-directories.png)
+
+Add the library names `SDL2.lib` and `SDL2main.lib` to `Library Directories` in Linker/General. 
+![VS Library Directories](vs-linker-input.png)
+
+## Compiling and Linking
+We need just a few lines of code to test that we can compile and link successfully. This is the content of `main.c`.
+
+```c
+#include <stdio.h>
+#include <SDL2/SDL.h>
+
+int main(void) {
+    SDL_Init(SDL_INIT_EVERYTHING);
+    printf("This is where it all begins!\n");
+    return 0;
+}
+```
+
+Now a quick test via gcc should confirm everything is working as expected.
+
+```bash
+gcc src/main.c -Wall -std=c99 -o renderer
+```
+
+## Makefile
+To avoid having to type the entire gcc call every time I created a Makefile with a few simple actions; build, run and clean. You don't need to know a lot about GNU Make to follow along with our use, but you can read more about it [here](https://www.gnu.org/software/make/manual/make.html#Rule-Introduction).
+
+As you've seen in the directory structure, the `Makefile` is created at the root `3drenderer` directory. Here are the only actions we need to start.
+
+```Makefile
+build:
+	gcc -Wall -std=c99 ./src/*.c -lSDL2 -o renderer
+
+run:
+	./renderer
+
+clean:
+	rm renderer
+```
+
+With that in place, we're able to invoke these actions, for example, `make build`. Even better, the first action is invoked by default so we can just use `make`.
+
+## Summary
+That completes our initial project setup. 

@@ -4,7 +4,9 @@ Although this is probably not an interesting topic to start with, I want to writ
 
 For those of you who missed the series introduction, the renderer will be written in glorious C and use SDL for cross-platform concerns like creating a window and input handling. I don't want to waste time building an OS abstraction for handling these tasks with native APIs since that's not the focus for this project.
 
-I'm writing this series while going through the [3D Graphics Programming from Scratch](https://pikuma.com/courses/learn-3d-computer-graphics-programming) course at Pikuma with instructor Gustavo Pezzi. With the recap out of the way, let's get into it.
+I'm writing this series while going through the [3D Graphics Programming from Scratch](https://pikuma.com/courses/learn-3d-computer-graphics-programming) course at Pikuma. 
+
+With that recap out of the way, let's get into it.
 
 ## Directory Structure
 We're keeping the directory structure as simple as possible to start out. All we need is a root and `src` folder. I don't know what I'll end up naming this project, so for now I'm sticking with `3drenderer`.
@@ -83,7 +85,7 @@ Add the SDL library directory to `Additional Library Directories` in Linker/Gene
 Add the library names `SDL2.lib` and `SDL2main.lib` to `Library Directories` in Linker/General. 
 ![VS Library Directories](vs-linker-input.png)
 
-## Compiling and Linking
+## Testing 
 We need just a few lines of code to test that we can compile and link successfully. This is the content of `main.c`.
 
 ```c

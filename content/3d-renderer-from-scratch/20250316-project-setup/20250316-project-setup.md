@@ -2,7 +2,7 @@
 
 Although this is probably not an interesting topic to start with, I want to write about the setup of the project for our 3D renderer from scratch. Don't worry, this does not constitute as this week's article; it's just a bonus.
 
-For those of you who missed the series introduction, the renderer will be written in glorious C and use SDL for cross-platform concerns like creating a window and input handling. I don't want to waste time building an OS abstraction for handling these tasks with native APIs since that's not the focus for this project.
+If you missed the [series introduction](https://dev.to/justinhhorner/learning-3d-graphics-from-scratch-2bmh), you might want to read that as well. For a short recap, we’re building a 3D renderer from scratch in glorious C and using SDL for cross-platform concerns like creating a window and input handling.
 
 I'm writing this series while going through the [3D Graphics Programming from Scratch](https://pikuma.com/courses/learn-3d-computer-graphics-programming) course at Pikuma. 
 
@@ -43,7 +43,7 @@ sudo apt install libsdl2-dev
 brew install sdl2
 ```
 
-Brew downloads SDL2 in the `opt/homebrew/Cellar/sdl2` directory, which is not in a default gcc search location. There are a few different ways to resolve this issue.
+Homebrew downloads SDL2 in the `opt/homebrew/Cellar/sdl2` directory, which is not in a default gcc search location. There are a few different ways to resolve this issue.
 
 First, the option I went with, examine the search paths gcc uses with the following command. I found that `/usr/local/include` and `/usr/local/lib` are included by default. I created symlinks for the SDL2 include directory and libraries from homebrew into `/usr/local/inlcude` and `/usr/local/libs` so gcc will find them.
 ```

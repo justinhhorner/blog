@@ -11,7 +11,7 @@ With that recap out of the way, let's get into it.
 ## Directory Structure
 We're keeping the directory structure as simple as possible to start out. All we need is a root and `src` folder. I don't know what I'll end up naming this project, so for now I'm sticking with `3drenderer`.
 
-This will work well for using Neovim or any other editor on macOS and Linux. However, I also want to include Visual Studio Solution and Project files so I can develop on Windows as well. I added a new directory called `msvs` for this to keep it isolated. Since SDL2 development libraries need to be downloaded manually on Windows, I added them to `src/lib/sdl`.
+This will work well for using Neovim or any other editor on macOS and Linux. However, I also want to include Visual Studio Solution and Project files. I added a new directory called `msvs` to keep these isolated. Since SDL2 development libraries need to be downloaded and extracted manually on Windows, I added them to `src/lib/sdl`.
 
 ```
 3drenderer
@@ -43,25 +43,23 @@ sudo apt install libsdl2-dev
 brew install sdl2
 ```
 
-Brew downloads SDL2 in the `opt/homebrew/Cellar/sdl2` directory, which is not in a default gcc search location. You will know this is the case if later when you try to compile `main.c` you see a compiler or linker error related to missing SDL files. There are a few different ways to resolve this issue.
+Brew downloads SDL2 in the `opt/homebrew/Cellar/sdl2` directory, which is not in a default gcc search location. There are a few different ways to resolve this issue.
 
-First, the option I went with, examine the search paths gcc uses with the following command. I found that `/usr/local/include` and `/usr/local/lib` are checked by default.
+First, the option I went with, examine the search paths gcc uses with the following command. I found that `/usr/local/include` and `/usr/local/lib` are included by default. I created symlinks for the SDL2 include directory and libraries from homebrew into `/usr/local/inlcude` and `/usr/local/libs` so gcc will find them.
 ```
 echo | gcc -xc -E -v -
 ```
 
-I created symlinks for the SDL2 include directory and libraries from homebrew into `/usr/local/inlcude` and `/usr/local/libs` so that gcc will be able to find them.
-
-Another approach is to provide the include and library directory paths to gcc via `-I` and `-L`. This adds quite a bit of noise to call gcc, but we'll use a Makefile so we don't need to type this out every time.
+Another approach is to provide the include and library directory paths to gcc via `-I` and `-L`. This adds some noise to call gcc, but we'll use a Makefile soon so we don't need to type this out every time.
 
 ```bash
 gcc -Wall -std=c99 ./src/*.c  -Ipath/to/includes -L/path/to/lib -lSDL2 -o renderer
 ```
 
 ## Windows
-Unfortunately, we have extra steps to get set up on Windows. There are several ways to go about this. You could download Visual Studio Build Tools and use any code editor along with [cl.exe](https://learn.microsoft.com/en-us/cpp/build/reference/compiler-command-line-syntax?view=msvc-170) to compile. You can find equivalent flags to get a similar behavior to what we use on macOS and Linux with gcc.
+Unfortunately, we have extra steps to get set up on Windows. There are several ways to go about this. You could download Visual Studio Build Tools and use any code editor along with [cl.exe](https://learn.microsoft.com/en-us/cpp/build/reference/compiler-command-line-syntax?view=msvc-170). You can find equivalent flags to get a similar behavior to what we use on macOS and Linux with gcc.
 
-However, most people prefer downloading the full Visual Studio IDE and adding the `Desktop Development with C++` workload to get a full IDE and C/C++ compiler up and running quickly. I'll cover this approach.
+However, most Windows developers prefer Visual Studio and adding the `Desktop Development with C++` workload for a full IDE and C/C++ compiler set up.
 
 You can install Visual Studio Community with winget.
 
@@ -71,7 +69,7 @@ winget install -e Microsoft.VisualStudio.2022.Community
 
 When that's done, open the Visual Studio Installer, choose `Modify` and check `Desktop Development with C++` and install.
 
-I downloaded the SDL2 development files and added them to the `msvs/lib` directory. We need to modify the project properties to add the SDL include and library files.
+I downloaded the SDL2 development files and added them to the `msvs/lib` directory, but we need to modify the project properties before we continue.
 
 Add the SDL include files to `Include Directories` in VC++ Directories.
 ![VS Include Directories](vs-include-directories.png)
@@ -82,7 +80,7 @@ Add the SDL library directory to `Library Directories` in VC++ Directories.
 Add the SDL library directory to `Additional Library Directories` in Linker/General. 
 ![VS Library Directories](vs-add-lib-directories.png)
 
-Add the library names `SDL2.lib` and `SDL2main.lib` to `Library Directories` in Linker/General. 
+Add the library names `SDL2.lib` and `SDL2main.lib` to `Additional Dependencies` in Linker/Input. 
 ![VS Library Directories](vs-linker-input.png)
 
 ## Testing 
@@ -106,7 +104,7 @@ gcc -Wall -std=c99 ./src/*.c -lSDL2 -o renderer
 ```
 
 ## Makefile
-To avoid having to type the entire gcc call every time, we can use a [Makefile](https://www.gnu.org/software/make/manual/make.html#Rule-Introduction)) with a few simple actions; build, run and clean.
+To avoid having to type the entire gcc call every time, we can use a [Makefile](https://www.gnu.org/software/make/manual/make.html#Rule-Introduction) with a few simple actions; build, run and clean.
 
 ```Makefile
 build:
@@ -119,9 +117,7 @@ clean:
 	rm renderer
 ```
 
-With that in place, we're able to invoke these actions, for example, `make build`. Even better, the first action is invoked by default so we can just use `make`.
-
-Now that our project is set up we're reading to tackle our first task; creating an SDL window!
+With that in place, we're able to invoke these actions, for example, `make build`. Even better, the first action is invoked by default so we can just use `make` to build. Now that our project is set up we're reading to tackle our first task; creating an SDL window!
 
 Until next time.  
 

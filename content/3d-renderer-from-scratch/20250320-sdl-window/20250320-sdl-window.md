@@ -1,8 +1,9 @@
-Welcome to the next article in my 3D graphics programming from scratch series. Previously, we set up the project and called `SDL_Init` to make sure our include and library directories are found successfully.
+Welcome to the next article in my 3D graphics programming from scratch series. Previously, we set up the project to call SDL_Init and make sure our include and library directories are found successfully.
 
 This, along with all future articles in the series, are going to be quite code and math heavy. Hopefully, that's something you're excited about!
 
-Today you and I are going to create a window that will work across macOS, Linux and even Windows using SDL2. 
+Today I'm going to show you how I created a window that will work across macOS, Linux and Windows using SDL2. 
+![Window Preview](./window-preview.png)
 
 Let's get started.
 
@@ -11,7 +12,7 @@ The first thing we need is a function that will attempt to initialize the SDL re
 
 I created a new function called `initialize_window` that accepts no parameters and returns `bool`.
 
-"But wait..." I hear you say. "C doesn't have a bool type. We have to use 0 or 1". We'll, yes that's still an option, but we do have `stdbool` in the standard library now, which gives us access to a `bool` type that contains defines `true` and `false` macros. 
+But wait…" I hear you say. "C doesn't have a bool type. We have to use 0 or 1". We'll, yes that's still an option, but we can use `stdbool` now, which gives us access to a `bool` type that contains `true` and `false` macros.
 
 Of course, these are still 0 and 1 integers behind the scenes, but it makes our intent more obvious when using the `bool` type versus an int. I added the include to use it.
 ```c
@@ -21,9 +22,11 @@ Of course, these are still 0 and 1 integers behind the scenes, but it makes our 
 ### Initialize SDL
 Since we're already initializing SDL resources in this method, it makes sense to move our SDL_Init call here.
 ```c
-if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    fprintf(stderr, "Error initializing SDL.\n");
-    return false;
+bool initialize_window(void) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+        fprintf(stderr, "Error initializing SDL.\n");
+        return false;
+    }
 }
 ```
 
@@ -31,14 +34,14 @@ if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 Now attempt to create an SDL Window. This method takes the following parameters:
 - Title - The title of the window in UTF-8 encoding
 - X - The x position of the window
-- y - THe y position of the window
+- y - The y position of the window
 - w - The width of the window, in screen coordinates
 - h - The height of the window, in screen coordinates
 - flags - 0, or one or more of the [SDL_WindowFlags](https://wiki.libsdl.org/SDL2/SDL_WindowFlags) OR'd together.
 
-It returns a pointer to an `SDL_Window` if successful or NULL on failure.
+It returns a pointer to an `SDL_Window` if successful or `NULL` on failure.
 
-I added an SDL_Window pointer variable and initialized it to NULL. Since I need to provide window width and height to create a window, I created two variables to store those.
+I added an SDL_Window pointer variable and initialized it to NULL. Since I need to provide window width and height to create a window, I created two variables to store those as well.
 ```c
 SDL_Window* window = NULL;
 int window_width = 800;
@@ -71,7 +74,7 @@ bool initialize_window(void) {
         0
     );
     if (!window) {
-        fprintf(stderr, "Error creating window");
+        fprintf(stderr, "Error creating SDL window");
         return false;
     }
 }
@@ -105,7 +108,7 @@ bool initialize_window(void) {
     // Create an SDL Renderer associated with our window
     renderer = SDL_CreateRenderer(window, -1, 0);
     if (!renderer) {
-        fprintf(stderr, "Error creating renderer");
+        fprintf(stderr, "Error creating SDL renderer");
         return false;
     }
 
@@ -171,7 +174,7 @@ void process_input(void) {
     }
 }
 ```
-Notice I also added a case for `SDL_Quit` because without it the user will have no way to close the window themselves.
+Notice I also added a case for `SDL_QUIT` because without it the user will have no way to close the window themselves.
 
 
 ### Update
@@ -184,10 +187,20 @@ void update(void) {
 
 
 ### Render
-For now we just want to test by rendering a single color in the window. For that, we'll use [SDL_SetRendererDrawColor](https://wiki.libsdl.org/SDL3/SDL_SetRenderDrawColor), followed by [SDL_RenderClear](https://wiki.libsdl.org/SDL2/SDL_RenderClear) to clear the renderer with the drawing color.
+For now we just want to test by rendering a single color (red in this example) in the window. For that, we'll use [SDL_SetRendererDrawColor](https://wiki.libsdl.org/SDL3/SDL_SetRenderDrawColor), followed by [SDL_RenderClear](https://wiki.libsdl.org/SDL2/SDL_RenderClear) to clear the renderer with the drawing color.
 
 Finally, I call [SDL_RenderPresent](https://wiki.libsdl.org/SDL2/SDL_RenderPresent) which will update the screen with the rendering we did since the previous call. If you understand how double buffering works in graphics you should recognize this pattern.
 
+```c
+void render(void) {
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
+    // TODO: Render some graphics!
+
+    SDL_RenderPresent(renderer);
+}
+```
 
 ## Free Resources
 We've created several resources that we should clean up once we no longer need them. I created a function called `destroy_window` that will take care of cleaning up all the resources we no longer need.

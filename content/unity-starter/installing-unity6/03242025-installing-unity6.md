@@ -41,6 +41,21 @@ sudo apt update && sudo apt install unityhub
 
 ![Unity Hub on Desktop](#)
 
+## Install Code Editor
+We're going to need a code editor that works well with C# and Unity. I don't often recommend it, but for this post I'll show you how to install Visual Studio Code. It has extensions for C# and Unity and is cross-platform.
+
+Thankfully, it's easy to install via command line as well.
+```bash
+# Windows
+winget install -e Microsoft.VisualStudioCode
+
+# macOS
+brew install --cask visual-studio-code
+```
+
+For Linux, check your distributions app store or [download it directly](https://code.visualstudio.com/Download#).
+
+
 ## Install Unity 6
 With Unity Hub launched we can now install the Unity 6. At some point you'll be prompted to sign in with your Unity ID. Do that so they'll stop bugging you about it.
 
@@ -122,4 +137,66 @@ Each tool has a handle in the scene that lets you interact with it directly. For
 Play around with these to get used to switching between them via keyboard and using their handles to manipulate Game Objects. Of course, we're just cover the basics in this post, but you can learn more in the [manual](https://docs.unity3d.com/Manual/SceneViewNavigation.html).
 
 ### Scripting Movement
-Finally, we want to be able to script behaviors during gameplay, and with that, let me introduce you to scripting. In Unity, the primary way of scripting is by using a language called C#. This is going to be a very high level look at coding, but just know there's a ton of resources to learn C#, and in the world of game development, it's one of the easiest to learn in my opinion.
+Finally, we want to be able to script behaviors during gameplay, and with that, let me introduce you to scripting. In Unity, the primary way of scripting is by using a language called C#.
+
+This is going to be a very high level look at coding, but just know there's a ton of resources to learn C#, and in the world of game development, it's one of the easiest to learn in my opinion.
+
+Enough talk, let's create our first script. In the Project window, right click on `Assets`, then go to `Create`, `MonoBehavior Script`. I named it `Mover`.
+
+Unity will open code files in your preferred code editor. You can configure that in Unity preferences on the "External Tools" section. I'm using [Rider](https://www.jetbrains.com/rider/) from [JetBrains](https://www.jetbrains.com)
+
+![Unity Preferences](#)
+
+We've created the script, but it is not yet a component of our Cube GO. Select the Cube and in the inspector you can click Add Component and search for Mover, or you can drag and drop the script from the Project window to the Cube GO in the Hierarchy.
+
+Now, double click the new script and take a look at the content in your preferred code editor. 
+
+```C#
+using UnityEngine;
+
+public class Mover : MonoBehaviour
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
+```
+
+You can see we have some helpful comments generated letting us know when `Start` and `Update`are called. What exactly are they though? Blocks of code within a class are called methods, which are blocks of code that can be called/executed from other places.
+
+Unity is a specialized scenario because the game engine itself calls these methods on our game objects. Let's demonstrate.
+
+Inside the `Start` method, add the following lines.
+```C#
+Debug.Log("Hello from the Start method of Mover!");
+```
+
+Back in Unity, press the play button at the top of the editor window to start playing the game in the editor.
+
+Look at the Console window and you should see the message displayed. If you don';t make sure you added the Mover script to the Cube Game Object in the inspector.
+
+![Console Start](#)
+
+Now add this to the Update method.
+
+```C#
+Debug.Log("Hello from the Update method of Mover!");
+```
+
+Now play again and you'll see the a log for every frame! This is because the Update method is called every frame of the game.
+
+![Console Update](#)
+
+I'll give an overview of what's going on here.
+
+First, we need to communicate that we are referencing aspects of the Unity Engine, and we do that with a `using` statement.
+
+We have a class called `Mover` that is public, which means it is accessible to other classes.

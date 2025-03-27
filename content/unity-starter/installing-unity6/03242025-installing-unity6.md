@@ -3,17 +3,14 @@ You've got a game idea but have yet to take the first steps toward making it a r
 Sometimes it can seem the most difficult part to start something is never taking the first step; whether that be out of some fear of not knowing enough to start or simply being overwhelmed by the amount of options to do so. I'll help you get started by showing how to install Unity and work your way around the editor.
 
 ## The Idea
-Before we can even be concerned about how to do something technically, think about what you want creatively. What game do you want to make that seems reasonable as a first project? There's a running joke in the games industry about those who have never made a game before choosing something on the scale of an Massively-Multiplayer RPG (MMORPG) as their first game.
+Before we can even be concerned about how to do something technically, think about what you want to creative. What game do you want to make that seems reasonable as a first project? There's a running joke in the games industry about those who have never made a game before choosing something on the scale of an Massively-Multiplayer Online RPG (MMORPG) as their first game.
 
 While I'm certainly not here to tell you what to make, I do recommend picking a relatively simple concept for your first game. Even old arcade games like Pac-Man have a surprising amount of work and complexity if you've never made a game before; music, sound effects, programming, art, AI, etc.
 
 A benefit of choosing an arcade classic to remake is you already understand the game design and mechanics. Keep in mind, you're learning multiple new skills to come together in a game, and if on top of that you get started with a lot unanswered game design questions trying to form your own game from the beginning it could ultimately prolong the entire process.
 
-If you're looking to become a game programmer professionally, I suggest at some point building your own small game engine, even if it's just 2D to get an idea for how these game engines work behind the scenes. You can take a look at open source engines like [Godot](https://github.com/godotengine/godot) so you can see the entire codebase on GitHub and learn from it.
-
-
 ## Install Unity 
-The engine I'm going to recommend, at least for now, is Unity. It's not because I'm a huge fan of it, but rather because of the amount of learning resources available. When you're just getting started this crucial part of learning a complex piece of software like a game engine.
+To get started I recommend Unity as it has a ton of learning resources available, and the official documentation is great as well. When you're just getting started this is a crucial part of learning a complex piece of software like a game engine.
 
 Installing Unity is easy, we can do it all from the command line; no need to open Yet Another Browser Tab. Projects and Unity installations are managed via Unity Hub, so let's get it.
 
@@ -47,7 +44,7 @@ sudo apt update && sudo apt install unityhub
 ## Install Unity 6
 With Unity Hub launched we can now install the Unity 6. At some point you'll be prompted to sign in with your Unity ID. Do that so they'll stop bugging you about it.
 
-The UI will change over time, so look for an "Installs" section and a button to install editor. I'm going to install Unity 6000.0.43f1, which is currently the latest LTS version of Unity 6. The specific version doesn't matter; get the latest LTS release.
+The UI will change over time, so look for an "Installs" section and a button to install editor. I'm going to install Unity 6000.0.43f1, which is currently the latest LTS version of Unity 6 at the time of this post. The specific version doesn't matter just get the latest LTS release.
 
 It's going to ask what you want to install with it, and for just getting started you can uncheck all of the options. You can download build support as you need it.
 
@@ -102,4 +99,27 @@ Why is it magenta, though? That's the color used for rendering when either a mat
 
 Click the button next to the `Element 0` field. A window allowing us to select a material will open, but we don't want these materials. We want the standard `Lit` material from the Universal Render Pipeline, which is hidden in this window by default.
 
-Click the eye visibility icon in the top right side of the window, the find and select the `Lit` material.
+Click the eye visibility icon in the top right side of the window, the find and select the `Lit` material. Now you should see something similar to this:
+
+![Lit Cube](#)
+
+### Navigate the Scene
+You'll spend a lot of time navigating within the Scene window to build worlds, so learning how to navigate efficiently is going to save a lot of time.
+
+For example, we'd like to get closer to our new cube. We can do so with the mouse scroll wheel. Scrolling forward and backward zooms in and out within the Scene. We can also pan with the mouse wheel by clicking it in and moving the mouse.
+
+Holding the right mouse button down and moving will rotate the camera around the Scene. Many times, you'll want to look at a mesh on all sides by rotating around it. You can do so by first focusing on the object (click on it in the Hierarchy or in the Scene) and then press the `f` key. Now you can hold `Alt/Cmd`, Left click and mouse the mouse.
+
+### Controlling Objects in the Scene
+Now we'll cover another set of tools to control objects in the scene, starting with being able to move our cube around. There's a panel of buttons you can use to move, rotate, and scale but it's much faster to use the following shortcuts.
+
+- w - Move
+- e - Rotate
+- r - Scale
+
+Each tool has a handle in the scene that lets you interact with it directly. For example, switching to the move tool gives us arrows on each axis we can click and drag to move the cube.
+
+Play around with these to get used to switching between them via keyboard and using their handles to manipulate Game Objects. Of course, we're just cover the basics in this post, but you can learn more in the [manual](https://docs.unity3d.com/Manual/SceneViewNavigation.html).
+
+### Scripting Movement
+Finally, we want to be able to script behaviors during gameplay, and with that, let me introduce you to scripting. In Unity, the primary way of scripting is by using a language called C#. This is going to be a very high level look at coding, but just know there's a ton of resources to learn C#, and in the world of game development, it's one of the easiest to learn in my opinion.

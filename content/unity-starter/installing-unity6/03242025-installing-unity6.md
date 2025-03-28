@@ -193,8 +193,11 @@ You can see we have some helpful comments generated letting us know when `Start`
 Unity is a specialized scenario because the game engine itself calls these methods on our game objects. Let's demonstrate.
 
 Inside the `Start` method, add the following lines.
-```C#
-Debug.Log("Hello from the Start method of Mover!");
+```csharp
+void Start()
+{
+    Debug.Log("Hello from the Start method of Mover!");
+}
 ```
 
 Back in Unity, press the play button at the top of the editor window to start playing the game in the editor.
@@ -205,8 +208,11 @@ Look at the Console window and you should see the message displayed. If you don'
 
 Now add this to the Update method.
 
-```C#
-Debug.Log("Hello from the Update method of Mover!");
+```csharp
+void Update()
+{
+    Debug.Log("Hello from the Update method of Mover!");
+}
 ```
 
 Now play again and you'll see the a log for every frame! This is because the Update method is called every frame of the game.
@@ -215,9 +221,9 @@ Now play again and you'll see the a log for every frame! This is because the Upd
 
 In order to move the cube as soon as we hit play, we need to access the transform component that stores position, rotation, and scale data.
 
-Fortunately, this is easy to do. The following code will move the position of the cube by 1 unit every second.
+Fortunately, this is easy to do. The following code will move the position of the cube by 1 unit every second. Note that I removed the log statement as well.
 
-```C#
+```csharp
 void Update()
 {
     transform.position += Time.deltaTime * Vector3.right;
@@ -235,7 +241,7 @@ Of course, this isn't acceptable. We could solve this problem if we knew how muc
 Unity provides this elapsed time since the previous frame via `Time.deltaTime`. By multiplying it with Vector3.right, we are sure to have frame independent movement and can say we are moving 1 unit a second.
 
 ## Summary
-If you've been considering getting into game development but needed a bit of help taking that first step, I genuinely hope this article is the guide that pushes you past the initial steps.
+If you've been considering getting into game development but needed a bit of help taking that first step, I genuinely hope you found this article helpful.
 
 Game development is incredibly fun and rewarding. There are many challenges along the way to keep it interesting. I've been a programmer for over 2 decades and out of everything I've worked on in my career I've never experienced anything as fun as making games.
 

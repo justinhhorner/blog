@@ -118,6 +118,24 @@ Click the eye visibility icon in the top right side of the window, the find and 
 
 ![Lit Cube](#)
 
+### Creating Materials
+What if we want this cube to be another color? Let's create a new material so we can make the cube red.
+
+Right click in the `Assets` folder in the Project window and select `Create`, `Material` and name it "Red".
+
+With the new material selected, look at the properties in the Inspector window. Under `Surface Inputs` you'll find the `Base Map` property with a color input.
+
+![Mat Inspector Default](#)
+
+Clicking on the color field will open the color wheel window where you can select a color. You should see the preview section at the bottom of the inspector update with the selected color.
+
+Materials can be applied either by selecting a game object, going to the `Mesh Renderer` component, and using the picker to select a new material. This is exactly what we did when we updated the cube to use the `Lit` material.
+
+Another way is to drag and drop the material file onto a mesh surface in the Scene. Try doing that now and you'll see the cube is now using our new material.
+
+![Material Applied](#)
+
+
 ### Navigate the Scene
 You'll spend a lot of time navigating within the Scene window to build worlds, so learning how to navigate efficiently is going to save a lot of time.
 
@@ -195,8 +213,37 @@ Now play again and you'll see the a log for every frame! This is because the Upd
 
 ![Console Update](#)
 
-I'll give an overview of what's going on here.
+In order to move the cube as soon as we hit play, we need to access the transform component that stores position, rotation, and scale data.
 
-First, we need to communicate that we are referencing aspects of the Unity Engine, and we do that with a `using` statement.
+Fortunately, this is easy to do. The following code will move the position of the cube by 1 unit every second.
 
-We have a class called `Mover` that is public, which means it is accessible to other classes.
+```C#
+void Update()
+{
+    transform.position += Time.deltaTime * Vector3.right;
+}
+```
+
+The `position` property of transform is a vector with three decimal numbers (what we call a `float` for floating point value) that represnt the X, Y, and Z positions in 3D space.
+
+Since we want to move to the right, we want a vector with values (1, 0, 0) which is X of 1 and Y and Z of 0. This is provided by `Vector3.right`.
+
+Now, if that's all we did there would be a problem. The cube would move, but it would be frame dependent, meaning that the speed of the cube moving would be faster on a more capable machine with a higher frames per second (FPS) and slower on less capable machines.
+
+Of course, this isn't acceptable. We could solve this problem if we knew how much time had elapsed since the last frame. With that value, we could muiltiply it to move X per second. We want to think about updating values in seconds to create frame independence.
+
+Unity provides this elapsed time since the previous frame via `Time.deltaTime`. By multiplying it with Vector3.right, we are sure to have frame independent movement and can say we are moving 1 unit a second.
+
+## Summary
+If you've been considering getting into game development but needed a bit of help taking that first step, I genuinely hope this article is the guide that pushes you past the initial steps.
+
+Game development is incredibly fun and rewarding. There are many challenges along the way to keep it interesting. I've been a programmer for over 2 decades and out of everything I've worked on in my career I've never experienced anything as fun as making games.
+
+With what you've learned here you can already start making a simple game. It may not seem that way, but remember everything is built atop simple fundamentals.
+
+For example, you could make a few cubes, learn how to change their colors dynamically via script and create a color matching game, or with your ability to create different shapes it could be a shape matching game of some kind.
+
+If you enjoyed this post, consider following me here and sharing it on social media. I'd greatly appreciate your support.
+
+Until next time.  
+Take care.

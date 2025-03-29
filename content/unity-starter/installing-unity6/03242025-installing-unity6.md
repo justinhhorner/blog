@@ -1,13 +1,13 @@
 You've got a game idea but have yet to take the first steps toward making it a reality? This post is for you.
 
-Sometimes it can seem the most difficult part to start something is never taking the first step; whether that be out of some fear of not knowing enough to start or simply being overwhelmed by the amount of options to do so. I'll help you get started by showing how to install Unity and work your way around the editor.
+Sometimes the most difficult aspect of starting something is just that; getting started. Whether that be out of some fear of not knowing enough to start or simply being overwhelmed by the amount of options available. In this post, I'll help you get started by choosing an engine, getting the tools you need, and cover the basics.
 
 ## The Idea
 Before we can even be concerned about how to do something technically, think about what you want to creative. What game do you want to make that seems reasonable as a first project? There's a running joke in the games industry about those who have never made a game before choosing something on the scale of an Massively-Multiplayer Online RPG (MMORPG) as their first game.
 
 While I'm certainly not here to tell you what to make, I do recommend picking a relatively simple concept for your first game. Even old arcade games like Pac-Man have a surprising amount of work and complexity if you've never made a game before; music, sound effects, programming, art, AI, etc.
 
-A benefit of choosing an arcade classic to remake is you already understand the game design and mechanics. Keep in mind, you're learning multiple new skills to come together in a game, and if on top of that you get started with a lot unanswered game design questions trying to form your own game from the beginning it could ultimately prolong the entire process.
+A benefit of choosing an arcade classic to remake is you already understand the game design and mechanics. This keeps your focus on learning the technical skills.
 
 ## Install Unity 
 To get started I recommend Unity as it has a ton of learning resources available, and the official documentation is great as well. When you're just getting started this is a crucial part of learning a complex piece of software like a game engine.
@@ -55,6 +55,13 @@ brew install --cask visual-studio-code
 
 For Linux, check your distributions app store or [download it directly](https://code.visualstudio.com/Download#).
 
+Now let's install a couple of extensions. Open Visual Studio Code and go to `View`, `Extensions`.
+
+First, search for C# and install the C# Dev Kit.
+![C# Dev Kit](#)
+
+Next, search for and install the Unity extension.
+![Unity Extension](#)
 
 ## Install Unity 6
 With Unity Hub launched we can now install the Unity 6. At some point you'll be prompted to sign in with your Unity ID. Do that so they'll stop bugging you about it.
@@ -110,7 +117,7 @@ Click "Add Component" and filter the list of components down by typing `mesh fil
 
 Well, what happened? There's no cube in the scene. That's because we have yet to add a component that's responsible for rendering the mesh! Add the component "Mesh Renderer" via the inspector and you will see a magenta cube now sitting at the origin of the world!
 
-Why is it magenta, though? That's the color used for rendering when either a material isn't set in the mesh render, or there's a problem with the material. In our case, you can tell by looking at the `Mesh Renderer` component that we don:w't have a material set yet.
+Why is it magenta, though? That's the color used for rendering when either a material isn't set in the mesh render, or there's a problem with the material. In our case, you can tell by looking at the `Mesh Renderer` component that we don't have a material set yet.
 
 Click the button next to the `Element 0` field. A window allowing us to select a material will open, but we don't want these materials. We want the standard `Lit` material from the Universal Render Pipeline, which is hidden in this window by default.
 
@@ -202,7 +209,7 @@ void Start()
 
 Back in Unity, press the play button at the top of the editor window to start playing the game in the editor.
 
-Look at the Console window and you should see the message displayed. If you don';t make sure you added the Mover script to the Cube Game Object in the inspector.
+Look at the Console window and you should see the message displayed. If you don't make sure you added the Mover script to the Cube Game Object in the inspector.
 
 ![Console Start](#)
 

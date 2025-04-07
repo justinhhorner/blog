@@ -1,11 +1,13 @@
 Welcome to another entry to the 3D renderer series. Today I'm documenting my switch from SDL2 to SDL3.  We'll tackle this first on Windows, then macOS and Linux. Let's get to it.
 
-## Windows
+## Installation
+
+### Windows
 Since I keep the SDL include and lib files local to the `msvs` project for Windows, I downloaded `SDL3-devel-3.2.8-VC.zip` file from [GitHub](https://github.com/libsdl-org/SDL/releases/tag/release-3.2.8).
 
 I added the files to `msvs\lib\sdl\include\SDL3\include` and `msvs\lib\sdl\lib\x86`.
 
-## macOS/Linux
+### macOS/Linux
 Of course, everything is easier on macOS and Linux. Just run the following commands in the terminal.
 
 ```bash

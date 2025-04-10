@@ -1,4 +1,4 @@
-I create a lot of projects for instructional purposes, game jams, and prototypes and I find myself often going to [gitignore.io](https://www.gitignore.com) to grab the latest recommended Unity gitignore as a starting point.
+I create a lot of projects for instructional purposes, game jams, and prototypes and I find myself often going to [gitignore.io](https://www.gitignore.io) to grab the latest recommended Unity gitignore as a starting point.
 
 ![gitingore.io website]()
 

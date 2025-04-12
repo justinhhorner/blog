@@ -9,19 +9,34 @@ Often referred to as "fake" full-screen is where we query for the full dimension
 
 ### Removing Borders
 First, I provided an additional property for the window to be displayed without borders.
-```d
-//
+```c
+SDL_SetBoolProperty(window_properties, SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN, true);
 ```
 
-Now here's what the window looks like when we run.
-![Borderless Window]()
-
-## Setting The Display Mode
-What we really want is to scale our lower resolution to the full extent of the monitor. Changing the resolution to be full screen would defeat our purpose.
-
-I reset the window width and height back to 800x600. The video mode can be set to full screen using `SDL_SetWindowFullscreen` like so:
+### Using Display Mode
+We need to get the full dimensions of our monitor to set our window x and y values. To do this, I use the display mode from SDL. Here I get the displays available to the system and then pass the first one in the array to `SD_GetCurrentDisplayMode`.
 ```c
-//
+SDL_DisplayID* displays = SDL_GetDisplays(NULL);
+SDL_DisplayMode* display_mode = SDL_GetCurrentDisplayMode(displays[0]);
+if (!display_mode)
+{
+    SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+    return false;
+}
+window_width = display_mode->w;
+window_height = display_mode->h; 
+```
+
+Now here's what the window looks like.
+![Fake Full Screen Window]()
+
+
+## Full Screen Mode
+While technically this is a full screen window, of course, it's not really what we want in our case. We don't want to change our render dimenisons, instead, we want to scale our lower resolution to the full extent of the monitor.
+
+Let's remove the display mode code added earlier and reset the window width and height back to 800x600. The video mode can be set to full screen using `SDL_SetWindowFullscreen` at the end of the `initialize_window` function like so:
+```c
+SDL_SetWindowFullscreen(window, true);
 ```
 
 The resulting window should look the same, but we are now utilizing the full screen mode with our intended resolution.
